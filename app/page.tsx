@@ -30,21 +30,6 @@ const parseUtcDate = (day: string) => {
   return new Date(Date.UTC(year, month - 1, date));
 };
 
-const formatElapsed = (ms: number) => {
-  const totalMinutes = Math.max(0, Math.floor(ms / 60000));
-  const days = Math.floor(totalMinutes / (60 * 24));
-  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
-  const minutes = totalMinutes % 60;
-
-  if (days > 0) {
-    return `${days}日 ${hours}時間`;
-  }
-  if (hours > 0) {
-    return `${hours}時間 ${minutes}分`;
-  }
-  return `${minutes}分`;
-};
-
 const getMonthDays = (year: number, monthIndex: number) => {
   const firstDay = new Date(year, monthIndex, 1);
   const lastDay = new Date(year, monthIndex + 1, 0);
@@ -199,18 +184,12 @@ export default function HomePage() {
       }
     }
 
-    const lastFailure = [...records].reverse().find((record) => !record.success);
-    const elapsed = lastFailure
-      ? formatElapsed(Date.now() - new Date(lastFailure.recorded_at).getTime())
-      : '失敗なし';
-
     return {
       currentStreak,
       successRate,
       monthSuccess,
       monthTotal,
-      bestStreak,
-      elapsed
+      bestStreak
     };
   }, [records, todayRecord]);
 
@@ -343,7 +322,11 @@ export default function HomePage() {
               <Box
                 sx={{
                   display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
+                  gridTemplateColumns: {
+                    xs: '1fr',
+                    sm: 'repeat(2, minmax(0, 1fr))',
+                    md: 'repeat(4, minmax(0, 1fr))'
+                  },
                   gap: { xs: 2, md: 3 }
                 }}
               >
@@ -375,15 +358,6 @@ export default function HomePage() {
                   tag="通算"
                   accent="#152722"
                 />
-                <Box sx={{ gridColumn: { xs: 'auto', md: '1 / -1' } }}>
-                  <StatCard
-                    title="最後の失敗からの経過"
-                    value={stats.elapsed}
-                    description="次の24時間が勝負"
-                    tag="経過"
-                    accent="#f3b25b"
-                  />
-                </Box>
               </Box>
 
               <Paper
