@@ -41,9 +41,9 @@ npm run dev
 2. リポジトリの Settings -> Pages で Source を GitHub Actions に設定
 3. リポジトリの Settings -> Secrets and variables -> Actions に以下を追加
 - Secrets: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- Variables: `NEXT_PUBLIC_BASE_PATH`
-4. `NEXT_PUBLIC_BASE_PATH` に `/<repo>` を設定（例: `/abstinence`）
-5. `main` ブランチに push すると自動デプロイされます
+4. `main` ブランチに push すると自動デプロイされます
+
+※ GitHub Actions ではリポジトリ名から自動で `basePath` を設定します。\n  必要なら `NEXT_PUBLIC_BASE_PATH` を Variables に追加して上書きできます。
 
 ### 注意
 
