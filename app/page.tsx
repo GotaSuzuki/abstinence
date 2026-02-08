@@ -6,7 +6,6 @@ import {
   Button,
   Chip,
   Container,
-  Grid,
   Paper,
   Stack,
   Typography
@@ -328,8 +327,13 @@ export default function HomePage() {
             </Paper>
           ) : (
             <>
-              <Grid container spacing={{ xs: 2, md: 3 }}>
-              <Grid xs={12} md={6}>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' },
+                  gap: { xs: 2, md: 3 }
+                }}
+              >
                 <StatCard
                   title="連続日数"
                   value={`${stats.currentStreak}日`}
@@ -337,8 +341,6 @@ export default function HomePage() {
                   tag="現在"
                   accent="#2f6b4f"
                 />
-              </Grid>
-              <Grid xs={12} md={6}>
                 <StatCard
                   title="今月の成功率"
                   value={`${stats.successRate}%`}
@@ -346,8 +348,6 @@ export default function HomePage() {
                   tag="今月"
                   accent="#3f7d5b"
                 />
-              </Grid>
-              <Grid xs={12} md={6}>
                 <StatCard
                   title="今月の達成日数"
                   value={`${stats.monthSuccess}日`}
@@ -355,8 +355,6 @@ export default function HomePage() {
                   tag="今月"
                   accent="#ea9a3f"
                 />
-              </Grid>
-              <Grid xs={12} md={6}>
                 <StatCard
                   title="最長連続記録"
                   value={`${stats.bestStreak}日`}
@@ -364,17 +362,16 @@ export default function HomePage() {
                   tag="通算"
                   accent="#152722"
                 />
-              </Grid>
-              <Grid xs={12}>
-                <StatCard
-                  title="最後の失敗からの経過"
-                  value={stats.elapsed}
-                  description="次の24時間が勝負"
-                  tag="経過"
+                <Box sx={{ gridColumn: { xs: 'auto', md: '1 / -1' } }}>
+                  <StatCard
+                    title="最後の失敗からの経過"
+                    value={stats.elapsed}
+                    description="次の24時間が勝負"
+                    tag="経過"
                     accent="#f3b25b"
                   />
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
 
               <Paper
                 elevation={0}
