@@ -11,7 +11,7 @@ import {
   Typography
 } from '@mui/material';
 import StatCard from '@/components/StatCard';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase, supabaseConfigured } from '@/lib/supabaseClient';
 
 type AbstinenceRecord = {
   day: string;
@@ -66,19 +66,32 @@ export default function HomePage() {
     setLoading(true);
     setError(null);
 
-    const { data, error: fetchError } = await supabase
-      .from('abstinence_days')
-      .select('day, success, recorded_at')
-      .order('day', { ascending: true });
-
-    if (fetchError) {
-      setError(fetchError.message);
+    if (!supabaseConfigured) {
+      setError('Supabase の環境変数が設定されていません。');
       setLoading(false);
       return;
     }
 
-    setRecords(data ?? []);
-    setLoading(false);
+    try {
+      const { data, error: fetchError } = await supabase
+        .from('abstinence_days')
+        .select('day, success, recorded_at')
+        .order('day', { ascending: true });
+
+      if (fetchError) {
+        setError(fetchError.message);
+        setLoading(false);
+        return;
+      }
+
+      setRecords(data ?? []);
+      setLoading(false);
+    } catch (fetchError) {
+      const message =
+        fetchError instanceof Error ? fetchError.message : 'Supabase への接続に失敗しました。';
+      setError(message);
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {

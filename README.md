@@ -43,7 +43,9 @@ npm run dev
 - Secrets: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 4. `main` ブランチに push すると自動デプロイされます
 
-※ GitHub Actions ではリポジトリ名から自動で `basePath` を設定します。\n  必要なら `NEXT_PUBLIC_BASE_PATH` を Variables に追加して上書きできます。
+※ GitHub Actions ではリポジトリ名から自動で `basePath` を設定します。
+  必要なら `NEXT_PUBLIC_BASE_PATH` を Variables に追加して上書きできます。
+※ 環境変数はビルド時に埋め込まれるため、Secrets を更新したら再デプロイが必要です。
 
 ### 注意
 
